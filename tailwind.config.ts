@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['"Playfair Display"', 'serif'],
+        script: ['"Cormorant Garamond"', 'cursive'],
         body: ['"Lato"', 'sans-serif'],
       },
       colors: {

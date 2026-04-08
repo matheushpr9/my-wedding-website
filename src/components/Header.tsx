@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
       <div className="container flex items-center justify-between h-14 md:h-16">
-        <a href="#inicio" className="font-display text-lg md:text-xl text-primary font-semibold italic">
+        <a href="#inicio" className="font-script text-xl md:text-2xl text-primary font-bold">
           L & M
         </a>
         <nav className="hidden md:flex gap-6">

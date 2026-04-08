@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import heroFloral from "@/assets/hero-floral.png";
+import logo from "@/assets/logo.png";
 
 const WEDDING_DATE = new Date("2026-07-11T11:00:00");
 
@@ -25,8 +25,8 @@ const HeroSection = () => {
   return (
     <section id="inicio" className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-12 relative overflow-hidden">
       <img
-        src={heroFloral}
-        alt="Arranjo floral"
+        src={logo}
+        alt="Logo"
         width={280}
         height={420}
         className="w-48 md:w-64 mb-6 animate-fade-in"
@@ -34,7 +34,7 @@ const HeroSection = () => {
       <p className="font-body text-sm tracking-[0.3em] uppercase text-secondary mb-2 animate-fade-in" style={{ animationDelay: "0.2s", opacity: 0 }}>
         Vamos nos casar
       </p>
-      <h1 className="font-display text-5xl md:text-7xl text-primary font-semibold italic animate-fade-in" style={{ animationDelay: "0.4s", opacity: 0 }}>
+      <h1 className="font-script text-5xl md:text-7xl text-primary animate-fade-in" style={{ animationDelay: "0.4s", opacity: 0 }}>
         Laura & Matheus
       </h1>
       <p className="font-display text-lg md:text-xl text-foreground/60 mt-3 animate-fade-in" style={{ animationDelay: "0.6s", opacity: 0 }}>
