@@ -2,7 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import { Gift, Check, Copy, X } from "lucide-react";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { createStaticPix, hasError } from "pix-utils";
+import { generatePixPayload } from "@/lib/pix";
 import { QRCodeSVG } from "qrcode.react";
 
 import giftPanelas from "@/assets/gift-panelas.jpg";
@@ -71,14 +71,13 @@ const GiftListSection = () => {
 
   const pixPayload = useMemo(() => {
     if (!showPix || total <= 0) return "";
-    const pix = createStaticPix({
+    return generatePixPayload({
+      pixKey: PIX_KEY,
       merchantName: "Laura e Matheus",
       merchantCity: "SAO PAULO",
-      pixKey: PIX_KEY,
-      transactionAmount: total,
-      infoAdicional: `Presente de ${nome}`,
+      amount: total,
+      description: `Presente de ${nome}`,
     });
-    return hasError(pix) ? "" : pix.toBRCode();
   }, [showPix, total, nome]);
 
   const copyPixPayload = () => {
