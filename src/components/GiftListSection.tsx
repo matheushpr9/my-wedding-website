@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { Gift, Check, Copy, X } from "lucide-react";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { createStaticPix, hasError } from "pix-utils";
+import { QRCodeSVG } from "qrcode.react";
 
 import giftPanelas from "@/assets/gift-panelas.jpg";
 import giftCama from "@/assets/gift-cama.jpg";
@@ -31,7 +33,8 @@ const gifts = [
   { id: 12, name: "Kit Churrasco", price: 300, image: giftChurrasco },
 ];
 
-const PIX_KEY = "casamento@email.com";
+const PIX_KEY = import.meta.env.VITE_PIX_CPF as string;
+const PIX_KEY_DISPLAY = PIX_KEY.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
 const GiftListSection = () => {
   const [selected, setSelected] = useState<number[]>([]);
@@ -66,9 +69,26 @@ const GiftListSection = () => {
     setShowPix(true);
   };
 
-  const copyPix = () => {
-    navigator.clipboard.writeText(PIX_KEY);
-    toast.success("Chave Pix copiada!");
+  const pixPayload = useMemo(() => {
+    if (!showPix || total <= 0) return "";
+    const pix = createStaticPix({
+      merchantName: "Laura e Matheus",
+      merchantCity: "SAO PAULO",
+      pixKey: PIX_KEY,
+      transactionAmount: total,
+      infoAdicional: `Presente de ${nome}`,
+    });
+    return hasError(pix) ? "" : pix.toBRCode();
+  }, [showPix, total, nome]);
+
+  const copyPixPayload = () => {
+    navigator.clipboard.writeText(pixPayload);
+    toast.success("Pix Copia e Cola copiado!");
+  };
+
+  const copyPixKey = () => {
+    navigator.clipboard.writeText(PIX_KEY_DISPLAY);
+    toast.success("CPF copiado!");
   };
 
   return (
@@ -201,14 +221,31 @@ const GiftListSection = () => {
             <p className="font-body text-muted-foreground text-sm mb-4">
               Valor: <span className="text-foreground font-bold">R$ {total.toFixed(2)}</span>
             </p>
-            <div className="bg-muted rounded-sm p-3 flex items-center justify-between gap-2 mb-4">
-              <span className="font-body text-sm text-foreground truncate">{PIX_KEY}</span>
-              <button onClick={copyPix} className="text-primary hover:text-primary/70 shrink-0">
+
+            {pixPayload && (
+              <div className="bg-white p-3 rounded-md inline-block mb-4">
+                <QRCodeSVG value={pixPayload} size={200} />
+              </div>
+            )}
+
+            <p className="font-body text-xs text-muted-foreground mb-2">Pix Copia e Cola</p>
+            <div className="bg-muted rounded-sm p-3 flex items-center justify-between gap-2 mb-3">
+              <span className="font-body text-xs text-foreground truncate">{pixPayload}</span>
+              <button onClick={copyPixPayload} className="text-primary hover:text-primary/70 shrink-0">
                 <Copy size={18} />
               </button>
             </div>
+
+            <p className="font-body text-xs text-muted-foreground mb-2">Ou copie o CPF (chave Pix)</p>
+            <div className="bg-muted rounded-sm p-3 flex items-center justify-between gap-2 mb-4">
+              <span className="font-body text-sm text-foreground">{PIX_KEY_DISPLAY}</span>
+              <button onClick={copyPixKey} className="text-primary hover:text-primary/70 shrink-0">
+                <Copy size={18} />
+              </button>
+            </div>
+
             <p className="font-body text-xs text-muted-foreground">
-              Copie a chave Pix acima e faça a transferência pelo seu banco. Obrigado pelo presente! 💝
+              Escaneie o QR Code ou copie o código acima. Obrigado pelo presente! 💝
             </p>
           </div>
         </div>
