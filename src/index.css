@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 96%;
+    --foreground: 20 10% 15%;
+
+    --card: 30 25% 93%;
+    --card-foreground: 20 10% 15%;
+
+    --popover: 30 33% 96%;
+    --popover-foreground: 20 10% 15%;
+
+    --primary: 16 55% 52%;
+    --primary-foreground: 30 33% 96%;
+
+    --secondary: 82 25% 37%;
+    --secondary-foreground: 30 33% 96%;
+
+    --muted: 30 20% 90%;
+    --muted-foreground: 20 10% 40%;
+
+    --accent: 16 40% 70%;
+    --accent-foreground: 20 10% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 20% 82%;
+    --input: 30 20% 82%;
+    --ring: 16 55% 52%;
+
+    --radius: 0.5rem;
+
+    --terracotta: 16 55% 52%;
+    --terracotta-light: 16 45% 72%;
+    --terracotta-dark: 16 55% 38%;
+    --olive: 82 25% 37%;
+    --olive-light: 82 20% 55%;
+    --olive-dark: 82 30% 25%;
+    --cream: 35 40% 92%;
+    --warm-white: 30 33% 96%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-gradient-terracotta {
+    background: linear-gradient(135deg, hsl(var(--terracotta)), hsl(var(--terracotta-dark)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
