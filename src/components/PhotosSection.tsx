@@ -2,10 +2,14 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-const photoModules = import.meta.glob<{ default: string }>("@/assets/photos/*.jpg", { eager: true });
-const photos = Object.values(photoModules).map((m) => m.default);
+import { api } from "@/lib/api";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const localModules = import.meta.glob<{ default: string }>("@/assets/photos/*.jpg", { eager: true });
+const localPhotos = Object.values(localModules).map((m) => m.default);
 
 const PhotosSection = () => {
+  const [photos, setPhotos] = useState<string[]>(localPhotos);
   const [selected, setSelected] = useState<string | null>(null);
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -16,14 +20,11 @@ const PhotosSection = () => {
     [autoplayPlugin.current]
   );
 
-  // Override autoplay speed to be very slow
   useEffect(() => {
-    if (!emblaApi) return;
-    const autoplay = emblaApi.plugins().autoplay;
-    if (autoplay) {
-      // Use a slow continuous scroll via repeated small advances
-    }
-  }, [emblaApi]);
+    api.getPhotos()
+      .then((data) => { if (data.length) setPhotos(data.map((p) => `${API_URL}${p.filename}`)); })
+      .catch(() => {});
+  }, []);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);

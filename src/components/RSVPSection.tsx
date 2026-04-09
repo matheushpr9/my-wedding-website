@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { UserPlus, Trash2, Send, Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
-const RSVP_URL = import.meta.env.VITE_RSVP_URL as string;
+import { api } from "@/lib/api";
 
 const RSVPSection = () => {
   const [name, setName] = useState("");
@@ -30,16 +29,11 @@ const RSVPSection = () => {
 
     setLoading(true);
     try {
-      await fetch(RSVP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nome: name,
-
-          acompanhantes: attending === "yes" ? companions.filter(Boolean).join(", ") : "",
-          mensagem: attending === "no" ? "(Não poderá ir)" : mensagem,
-        }),
+      await api.submitRsvp({
+        nome: name,
+        comparecera: attending === "yes",
+        acompanhantes: attending === "yes" ? companions.filter(Boolean).join(", ") : "",
+        mensagem: attending === "no" ? "(Não poderá ir)" : mensagem,
       });
       setSubmitted(true);
       toast.success("Presença confirmada com sucesso! 🎉");

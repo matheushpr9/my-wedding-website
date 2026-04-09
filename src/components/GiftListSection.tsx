@@ -1,9 +1,12 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Gift, Check, Copy, X } from "lucide-react";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { generatePixPayload } from "@/lib/pix";
 import { QRCodeSVG } from "qrcode.react";
+import { api } from "@/lib/api";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 import giftPanelas from "@/assets/gift-panelas.jpg";
 import giftCama from "@/assets/gift-cama.jpg";
@@ -18,7 +21,7 @@ import giftVentilador from "@/assets/gift-ventilador.jpg";
 import giftFerro from "@/assets/gift-ferro.jpg";
 import giftChurrasco from "@/assets/gift-churrasco.jpg";
 
-const gifts = [
+const fallbackGifts = [
   { id: 1, name: "Jogo de Panelas", price: 350, image: giftPanelas },
   { id: 2, name: "Jogo de Cama King", price: 280, image: giftCama },
   { id: 3, name: "Aspirador de Pó", price: 450, image: giftAspirador },
@@ -37,6 +40,7 @@ const PIX_KEY = import.meta.env.VITE_PIX_CPF as string;
 const PIX_KEY_DISPLAY = PIX_KEY.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
 const GiftListSection = () => {
+  const [gifts, setGifts] = useState(fallbackGifts);
   const [selected, setSelected] = useState<number[]>([]);
   const [showPix, setShowPix] = useState(false);
   const [nome, setNome] = useState("");
@@ -44,6 +48,12 @@ const GiftListSection = () => {
   const [nomeError, setNomeError] = useState(false);
   const isMobile = useIsMobile();
   const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    api.getGifts()
+      .then((data) => { if (data.length) setGifts(data.map((g) => ({ ...g, image: `${API_URL}${g.image}` }))); })
+      .catch(() => {});
+  }, []);
 
   const toggle = (id: number) => {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
