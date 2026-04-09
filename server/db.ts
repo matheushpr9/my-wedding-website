@@ -31,15 +31,6 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 
-  CREATE TABLE IF NOT EXISTS rsvps (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    comparecera INTEGER DEFAULT 1,
-    acompanhantes TEXT DEFAULT '',
-    mensagem TEXT DEFAULT '',
-    confirmacao_num INTEGER DEFAULT 1,
-    created_at TEXT DEFAULT (datetime('now'))
-  );
 `);
 
 // Seed admin user if none exists

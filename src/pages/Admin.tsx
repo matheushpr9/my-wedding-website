@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
-import { Trash2, Plus, LogOut, Upload, Eye, EyeOff, Users, Gift, Camera, ArrowLeft, ImagePlus, Download } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Trash2, Plus, LogOut, Upload, Eye, EyeOff, Gift, Camera, ArrowLeft, ImagePlus } from "lucide-react";
+
 import { toast, Toaster } from "sonner";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
-type Tab = "gifts" | "photos" | "rsvps";
+type Tab = "gifts" | "photos";
 
 export default function Admin() {
   const [authed, setAuthed] = useState(false);
@@ -67,7 +67,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const tabs: { key: Tab; label: string; icon: React.ReactNode }[] = [
     { key: "gifts", label: "Presentes", icon: <Gift size={16} /> },
     { key: "photos", label: "Fotos", icon: <Camera size={16} /> },
-    { key: "rsvps", label: "RSVPs", icon: <Users size={16} /> },
   ];
 
   return (
@@ -103,7 +102,6 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
         {tab === "gifts" && <GiftsTab />}
         {tab === "photos" && <PhotosTab />}
-        {tab === "rsvps" && <RsvpsTab />}
       </div>
     </div>
   );
@@ -243,60 +241,3 @@ function PhotosTab() {
   );
 }
 
-// ==================== RSVPS TAB ====================
-function RsvpsTab() {
-  const [rsvps, setRsvps] = useState<any[]>([]);
-
-  useEffect(() => { api.getAdminRsvps().then(setRsvps).catch(() => toast.error("Erro ao carregar RSVPs")); }, []);
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-display text-lg">Confirmações ({rsvps.length})</h2>
-        {rsvps.length > 0 && (
-          <a href={api.exportRsvpsCsv()} className="flex items-center gap-1 px-3 py-1.5 bg-secondary text-secondary-foreground rounded-md text-sm">
-            <Download size={16} /> Exportar CSV
-          </a>
-        )}
-      </div>
-      {rsvps.length === 0 ? (
-        <p className="text-muted-foreground text-sm">Nenhuma confirmação ainda.</p>
-      ) : (
-        <div className="bg-background border border-border rounded-lg overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-muted">
-              <tr>
-                <th className="text-left px-4 py-2">Nome</th>
-                <th className="text-left px-4 py-2">Comparecerá</th>
-                <th className="text-left px-4 py-2">Acompanhantes</th>
-                <th className="text-left px-4 py-2">Mensagem</th>
-                <th className="text-center px-4 py-2">Nº Conf.</th>
-                <th className="text-left px-4 py-2">Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rsvps.map((r) => (
-                <tr key={r.id} className="border-t border-border">
-                  <td className="px-4 py-2 font-medium">{r.nome}</td>
-                  <td className="px-4 py-2">
-                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs ${r.comparecera ? "bg-secondary/20 text-secondary" : "bg-destructive/20 text-destructive"}`}>
-                      {r.comparecera ? "Sim" : "Não"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2 text-muted-foreground">{r.acompanhantes || "—"}</td>
-                  <td className="px-4 py-2 text-muted-foreground">{r.mensagem || "—"}</td>
-                  <td className="px-4 py-2 text-center">
-                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs ${r.confirmacao_num > 1 ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"}`}>
-                      {r.confirmacao_num}ª
-                    </span>
-                  </td>
-                  <td className="px-4 py-2 text-muted-foreground whitespace-nowrap">{new Date(r.created_at).toLocaleDateString("pt-BR")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
-  );
-}

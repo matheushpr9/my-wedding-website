@@ -68,16 +68,6 @@ app.get("/api/photos", (_req, res) => {
   res.json(photos);
 });
 
-// Public: submit RSVP
-app.post("/api/rsvps", (req, res) => {
-  const { nome, comparecera, acompanhantes, mensagem } = req.body;
-  if (!nome?.trim()) return res.status(400).json({ error: "Nome obrigatório" });
-  const prev = db.prepare("SELECT MAX(confirmacao_num) as n FROM rsvps WHERE LOWER(TRIM(nome)) = LOWER(TRIM(?))").get(nome) as any;
-  const num = (prev?.n || 0) + 1;
-  db.prepare("INSERT INTO rsvps (nome, comparecera, acompanhantes, mensagem, confirmacao_num) VALUES (?, ?, ?, ?, ?)")
-    .run(nome, comparecera ? 1 : 0, acompanhantes || "", mensagem || "", num);
-  res.json({ ok: true, confirmacao_num: num });
-});
 
 // ==================== ADMIN ROUTES ====================
 
@@ -139,22 +129,5 @@ app.delete("/api/admin/photos/:id", auth, (req, res) => {
   res.json({ ok: true });
 });
 
-// RSVPs list
-app.get("/api/admin/rsvps", auth, (_req, res) => {
-  res.json(db.prepare("SELECT * FROM rsvps ORDER BY created_at DESC").all());
-});
-
-// RSVPs CSV export
-app.get("/api/admin/rsvps/csv", auth, (_req, res) => {
-  const rows = db.prepare("SELECT nome, comparecera, acompanhantes, mensagem, confirmacao_num, created_at FROM rsvps ORDER BY created_at DESC").all() as any[];
-  const header = "Nome,Comparecerá,Acompanhantes,Mensagem,Nº Confirmação,Data";
-  const esc = (v: string) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const csv = [header, ...rows.map((r) =>
-    [esc(r.nome), r.comparecera ? "Sim" : "Não", esc(r.acompanhantes), esc(r.mensagem), r.confirmacao_num, esc(r.created_at)].join(",")
-  )].join("\n");
-  res.setHeader("Content-Type", "text/csv; charset=utf-8");
-  res.setHeader("Content-Disposition", "attachment; filename=rsvps.csv");
-  res.send("\uFEFF" + csv);
-});
 
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
