@@ -10,7 +10,7 @@ import db from "./db.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET!;
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const UPLOADS_DIR = path.join(import.meta.dirname, "uploads");
 
 app.use(cors({ origin: true, credentials: true }));
@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
   destination: UPLOADS_DIR,
   filename: (_req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
 });
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+const upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
 
 // --- Auth middleware ---
 function auth(req: express.Request, res: express.Response, next: express.NextFunction) {

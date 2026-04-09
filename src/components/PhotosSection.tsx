@@ -2,14 +2,9 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { api } from "@/lib/api";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-const localModules = import.meta.glob<{ default: string }>("@/assets/photos/*.jpg", { eager: true });
-const localPhotos = Object.values(localModules).map((m) => m.default);
 
 const PhotosSection = () => {
-  const [photos, setPhotos] = useState<string[]>(localPhotos);
+  const [photos, setPhotos] = useState<string[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -21,8 +16,9 @@ const PhotosSection = () => {
   );
 
   useEffect(() => {
-    api.getPhotos()
-      .then((data) => { if (data.length) setPhotos(data.map((p) => `${API_URL}${p.filename}`)); })
+    fetch("/data/photos.json")
+      .then((r) => r.json())
+      .then((data: { filename: string }[]) => setPhotos(data.map((p) => p.filename)))
       .catch(() => {});
   }, []);
 
