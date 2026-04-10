@@ -24,6 +24,14 @@ const HeroSection = () => {
 
   return (
     <section id="inicio" className="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-12 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <img
+          src="/hero-couple.jpg"
+          alt="Laura e Matheus"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-background/65" />
+      </div>
       <img
         src={logo}
         alt="Logo"

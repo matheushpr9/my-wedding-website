@@ -7,6 +7,7 @@ const navItems = [
   { label: "Local", href: "#local" },
   { label: "Fotos", href: "#fotos" },
   { label: "Lista de Presentes", href: "#presentes" },
+  { label: "Manual", href: "#manual" },
 ];
 
 const Header = () => {

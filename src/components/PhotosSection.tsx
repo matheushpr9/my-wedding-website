@@ -5,9 +5,19 @@ import Autoplay from "embla-carousel-autoplay";
 
 const PhotosSection = () => {
   const [photos, setPhotos] = useState<string[]>([]);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
+
+  const goPrev = () => {
+    if (selected === null) return;
+    setSelected(selected === 0 ? photos.length - 1 : selected - 1);
+  };
+
+  const goNext = () => {
+    if (selected === null) return;
+    setSelected(selected === photos.length - 1 ? 0 : selected + 1);
+  };
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -41,7 +51,7 @@ const PhotosSection = () => {
                   className="flex-[0_0_80%] md:flex-[0_0_40%] min-w-0 pl-3"
                 >
                   <button
-                    onClick={() => setSelected(photo)}
+                    onClick={() => setSelected(i)}
                     className="overflow-hidden rounded-lg aspect-square w-full group"
                   >
                     <img
@@ -71,18 +81,31 @@ const PhotosSection = () => {
         </div>
       </div>
 
-      {selected && (
+      {selected !== null && (
         <div
           className="fixed inset-0 z-[60] bg-foreground/80 flex items-center justify-center p-4"
           onClick={() => setSelected(null)}
         >
-          <button className="absolute top-4 right-4 text-background" onClick={() => setSelected(null)}>
+          <button className="absolute top-4 right-4 text-background z-10" onClick={() => setSelected(null)}>
             <X size={32} />
           </button>
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-background/80 hover:text-background z-10"
+            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+          >
+            <ChevronLeft size={36} />
+          </button>
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-background/80 hover:text-background z-10"
+            onClick={(e) => { e.stopPropagation(); goNext(); }}
+          >
+            <ChevronRight size={36} />
+          </button>
           <img
-            src={selected}
+            src={photos[selected]}
             alt="Foto ampliada"
             className="max-w-full max-h-[85vh] rounded-lg object-contain"
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}
