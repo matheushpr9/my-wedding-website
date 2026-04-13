@@ -5,11 +5,6 @@
     "alt": "20241224_104854"
   },
   {
-    "id": 2,
-    "filename": "/uploads/1775784165201-20250522_200421.jpg",
-    "alt": "20250522_200421"
-  },
-  {
     "id": 3,
     "filename": "/uploads/1775784165217-20251221_170406.jpg",
     "alt": "20251221_170406"
@@ -158,11 +153,6 @@
     "id": 32,
     "filename": "/uploads/1775784165449-IMG-20260327-WA0026.jpg",
     "alt": "IMG-20260327-WA0026"
-  },
-  {
-    "id": 33,
-    "filename": "/uploads/1775784165456-IMG_20240417_171210_798.jpg",
-    "alt": "IMG_20240417_171210_798"
   },
   {
     "id": 34,
@@ -388,5 +378,80 @@
     "id": 78,
     "filename": "/uploads/1775784166052-WhatsApp Image 2026-04-09 at 20.09.47.jpeg",
     "alt": "WhatsApp Image 2026-04-09 at 20.09.47"
+  },
+  {
+    "id": 79,
+    "filename": "/uploads/1776043846651-RS_L5706.jpg",
+    "alt": "RS_L5706"
+  },
+  {
+    "id": 80,
+    "filename": "/uploads/1776044286956-WhatsApp Image 2026-04-12 at 12.07.25(1).jpeg",
+    "alt": "WhatsApp Image 2026-04-12 at 12.07.25(1)"
+  },
+  {
+    "id": 81,
+    "filename": "/uploads/1776044286962-WhatsApp Image 2026-04-12 at 12.07.25.jpeg",
+    "alt": "WhatsApp Image 2026-04-12 at 12.07.25"
+  },
+  {
+    "id": 82,
+    "filename": "/uploads/1776044286968-WhatsApp Image 2026-04-12 at 12.07.24.jpeg",
+    "alt": "WhatsApp Image 2026-04-12 at 12.07.24"
+  },
+  {
+    "id": 83,
+    "filename": "/uploads/1776044286973-RS_L5830.jpg",
+    "alt": "RS_L5830"
+  },
+  {
+    "id": 84,
+    "filename": "/uploads/1776044286984-RS_L5777.jpg",
+    "alt": "RS_L5777"
+  },
+  {
+    "id": 85,
+    "filename": "/uploads/1776044287014-RS_L5774.jpg",
+    "alt": "RS_L5774"
+  },
+  {
+    "id": 86,
+    "filename": "/uploads/1776044287025-RS_L5771.jpg",
+    "alt": "RS_L5771"
+  },
+  {
+    "id": 87,
+    "filename": "/uploads/1776044287041-RS_L5768.jpg",
+    "alt": "RS_L5768"
+  },
+  {
+    "id": 88,
+    "filename": "/uploads/1776044287052-RS_L5767.jpg",
+    "alt": "RS_L5767"
+  },
+  {
+    "id": 89,
+    "filename": "/uploads/1776044287064-RS_L5764.jpg",
+    "alt": "RS_L5764"
+  },
+  {
+    "id": 90,
+    "filename": "/uploads/1776044287080-RS_L5755.jpg",
+    "alt": "RS_L5755"
+  },
+  {
+    "id": 91,
+    "filename": "/uploads/1776044287089-RS_L5726.jpg",
+    "alt": "RS_L5726"
+  },
+  {
+    "id": 92,
+    "filename": "/uploads/1776044287098-RS_L5716.jpg",
+    "alt": "RS_L5716"
+  },
+  {
+    "id": 94,
+    "filename": "/uploads/1776044717042-Screenshot from 2026-04-12 22-45-04.png",
+    "alt": "Screenshot from 2026-04-12 22-45-04"
   }
 ]

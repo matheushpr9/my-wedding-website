@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": 2,
+    "name": "1 pacote de Ração para a Luma",
+    "price": 200,
+    "image": "/uploads/1776045309087-Screenshot from 2026-04-12 22-54-34.png"
+  },
+  {
+    "id": 3,
+    "name": "1 Jantar Romântico",
+    "price": 260,
+    "image": "/uploads/1776045633117-Screenshot from 2026-04-12 22-59-39.png"
+  },
+  {
+    "id": 4,
+    "name": "1 Jogo De Tabuleiro  ",
+    "price": 350,
+    "image": "/uploads/1776046177068-93acd_v9nvru.jpg"
+  },
+  {
+    "id": 5,
+    "name": "1 Ano de Spotify / Stream",
+    "price": 620,
+    "image": "/uploads/1776046836680-EyI_JTnXAAEqNwu.jpg"
+  },
+  {
+    "id": 6,
+    "name": "1 Ano de Chocolate para TMP da Laura",
+    "price": 700,
+    "image": "/uploads/1776046950971-images.jpeg"
+  },
+  {
+    "id": 8,
+    "name": "1 Ano de Café para o Matheus Trabalhar",
+    "price": 850,
+    "image": "/uploads/1776047452945-Screenshot from 2026-04-12 23-30-43.png"
+  },
+  {
+    "id": 9,
+    "name": "1 noite de hambúrguer do matheus",
+    "price": 990,
+    "image": "/uploads/1776048230781-Screenshot from 2026-04-12 23-43-34.png"
+  },
+  {
+    "id": 11,
+    "name": "1 ano de Pilates com a Laura",
+    "price": 1200,
+    "image": "/uploads/1776048678296-Screenshot from 2026-04-12 23-50-35.png"
+  },
+  {
+    "id": 12,
+    "name": "1 Ano de Academia para os Noivos",
+    "price": 1650,
+    "image": "/uploads/1776049232739-Screenshot from 2026-04-13 00-00-18.png"
+  },
+  {
+    "id": 13,
+    "name": "Lava Louças para os noivos não brigarem",
+    "price": 1990,
+    "image": "/uploads/1776049351872-Screenshot from 2026-04-13 00-02-10.png"
+  },
+  {
+    "id": 14,
+    "name": "Suborno para Termos filhos logo",
+    "price": 2500,
+    "image": "/uploads/1776049663289-Screenshot from 2026-04-13 00-07-19.png"
+  },
+  {
+    "id": 15,
+    "name": "Nintendo Switch 2",
+    "price": 4000,
+    "image": "/uploads/1776049756394-Screenshot from 2026-04-13 00-08-42.png"
+  }
+]
