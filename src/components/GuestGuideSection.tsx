@@ -24,7 +24,7 @@ const tips = [
   { icon: HandHeart, title: "Não Saia Sem Se Despedir", text: "Passe para dar um abraço nos noivos antes de ir" },
   { icon: AlertTriangle, title: "Evite Confusões", text: "Mantenha a harmonia e o clima de celebração" },
   { icon: MessageCircleOff, title: "Não Faça Comentários Negativos", text: "Guarde críticas para outro momento" },
-  { icon: Flower2, title: "Não Leve Itens de Decoração", text: "Os arranjos e decorações fazem parte do evento" },
+  { icon: Flower2, title: "Não Leve Itens da Decoração", text: "Os arranjos e decorações fazem parte do evento" },
   { icon: CakeSlice, title: "Não Ataque a Mesa de Doces", text: "Aguarde o momento certo para se servir" },
   { icon: Instagram, title: "Tire Muitas Fotos", text: "E nos marque no Instagram!" },
 ];
