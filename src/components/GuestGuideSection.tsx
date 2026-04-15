@@ -52,6 +52,23 @@ const GuestGuideSection = () => (
         ))}
       </div>
 
+      {/* Dress Code */}
+      <div className="mt-14 text-center">
+        <h3 className="font-display text-xl md:text-2xl text-primary mb-3">Dress Code</h3>
+        <p className="font-body text-foreground leading-relaxed mb-1">
+          O traje recomendado será <span className="font-bold text-primary">esporte fino</span>.
+        </p>
+        <p className="font-body text-muted-foreground text-sm leading-relaxed mb-8 max-w-lg mx-auto">
+          Queremos que todos se sintam bonitos e confortáveis! Nada de terno e gravata — pensem em algo chique, mas descontraído, para aproveitarmos o dia juntos com muita leveza e alegria.
+          <br/>
+          Aqui estão algumas sugestões:
+        </p>
+        <div className="flex justify-center gap-4">
+          <img src="/dresscode-1.png" alt="Dress code feminino" className="w-40 sm:w-52 rounded-lg border border-border" />
+          <img src="/dresscode-2.png" alt="Dress code masculino" className="w-40 sm:w-52 rounded-lg border border-border" />
+        </div>
+      </div>
+
       <div className="text-center mt-10">
         <a
           href="/manual-do-convidado.pdf"
