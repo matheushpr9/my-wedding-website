@@ -1,29 +1,9 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 
 const PhotosSection = () => {
   const [photos, setPhotos] = useState<string[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
-
-  const goPrev = () => {
-    if (selected === null) return;
-    setSelected(selected === 0 ? photos.length - 1 : selected - 1);
-  };
-
-  const goNext = () => {
-    if (selected === null) return;
-    setSelected(selected === photos.length - 1 ? 0 : selected + 1);
-  };
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
-
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, dragFree: true },
-    [autoplayPlugin.current]
-  );
 
   useEffect(() => {
     fetch("/data/photos.json")
@@ -32,52 +12,51 @@ const PhotosSection = () => {
       .catch(() => {});
   }, []);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const goPrev = useCallback(() => {
+    if (selected === null) return;
+    setSelected(selected === 0 ? photos.length - 1 : selected - 1);
+  }, [selected, photos.length]);
+
+  const goNext = useCallback(() => {
+    if (selected === null) return;
+    setSelected(selected === photos.length - 1 ? 0 : selected + 1);
+  }, [selected, photos.length]);
+
+  useEffect(() => {
+    if (selected === null) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "Escape") setSelected(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [selected, goPrev, goNext]);
 
   return (
     <section id="fotos" className="py-20 px-4">
-      <div className="container max-w-4xl">
+      <div className="container max-w-5xl">
         <h2 className="font-display text-3xl md:text-4xl text-primary text-center mb-12">
           Nossa História em Fotos
         </h2>
 
-        <div className="relative">
-          <div className="overflow-hidden rounded-lg" ref={emblaRef}>
-            <div className="flex">
-              {photos.map((photo, i) => (
-                <div
-                  key={i}
-                  className="flex-[0_0_80%] md:flex-[0_0_40%] min-w-0 pl-3"
-                >
-                  <button
-                    onClick={() => setSelected(i)}
-                    className="overflow-hidden rounded-lg aspect-square w-full group"
-                  >
-                    <img
-                      src={photo}
-                      alt={`Foto do casal ${i + 1}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </button>
-                </div>
-              ))}
-            </div>
+        <div className="max-h-[400px] md:max-h-[600px] overflow-y-auto rounded-lg photos-scroll">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {photos.map((photo, i) => (
+              <button
+                key={i}
+                onClick={() => setSelected(i)}
+                className="overflow-hidden rounded-lg aspect-square group"
+              >
+                <img
+                  src={photo}
+                  alt={`Foto do casal ${i + 1}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </button>
+            ))}
           </div>
-
-          <button
-            onClick={scrollPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border border-border rounded-full p-2 text-foreground hover:bg-background transition-colors z-10"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={scrollNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm border border-border rounded-full p-2 text-foreground hover:bg-background transition-colors z-10"
-          >
-            <ChevronRight size={20} />
-          </button>
         </div>
       </div>
 

@@ -15,9 +15,9 @@ const Index = () => (
       <HeroSection />
       <RSVPSection />
       <VenueSection />
-      <PhotosSection />
       <GiftListSection />
       <GuestGuideSection />
+      <PhotosSection />
       <VerseSection />
     </main>
     <Footer />
