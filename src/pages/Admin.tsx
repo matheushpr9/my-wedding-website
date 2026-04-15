@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
-import { Trash2, Plus, LogOut, Upload, Eye, EyeOff, Gift, Camera, ArrowLeft, ImagePlus } from "lucide-react";
+import { Trash2, Plus, LogOut, Upload, Eye, EyeOff, Gift, Camera, ArrowLeft, ImagePlus, Pencil, X } from "lucide-react";
 
 import { toast, Toaster } from "sonner";
 
@@ -112,6 +112,8 @@ function GiftsTab() {
   const [gifts, setGifts] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [editing, setEditing] = useState<any | null>(null);
+  const [editFileName, setEditFileName] = useState("");
 
   const load = useCallback(() => { api.getAdminGifts().then(setGifts).catch(() => toast.error("Erro ao carregar presentes")); }, []);
   useEffect(load, [load]);
@@ -123,8 +125,27 @@ function GiftsTab() {
       await api.createGift(form);
       toast.success("Presente criado!");
       setShowForm(false);
+      setFileName("");
       load();
     } catch { toast.error("Erro ao criar presente"); }
+  };
+
+  const handleEdit = (gift: any) => {
+    setEditing(gift);
+    setEditFileName("");
+  };
+
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editing) return;
+    const fd = new FormData(e.currentTarget);
+    fd.append("active", String(editing.active));
+    try {
+      await api.updateGift(editing.id, fd);
+      toast.success("Presente atualizado!");
+      setEditing(null);
+      load();
+    } catch { toast.error("Erro ao atualizar presente"); }
   };
 
   const handleToggle = async (gift: any) => {
@@ -171,10 +192,13 @@ function GiftsTab() {
               <p className="text-sm font-medium truncate">{g.name}</p>
               <p className="text-xs text-muted-foreground">R$ {Number(g.price).toFixed(2)}</p>
               <div className="flex gap-2 mt-1">
+                <button onClick={() => handleEdit(g)} className="text-xs text-muted-foreground hover:text-foreground" title="Editar">
+                  <Pencil size={14} />
+                </button>
                 <button onClick={() => handleToggle(g)} className="text-xs text-muted-foreground hover:text-foreground" title={g.active ? "Desativar" : "Ativar"}>
                   {g.active ? <Eye size={14} /> : <EyeOff size={14} />}
                 </button>
-                <button onClick={() => handleDelete(g.id)} className="text-xs text-destructive hover:text-destructive/80">
+                <button onClick={() => handleDelete(g.id)} className="text-xs text-destructive hover:text-destructive/80" title="Excluir">
                   <Trash2 size={14} />
                 </button>
               </div>
@@ -182,6 +206,28 @@ function GiftsTab() {
           </div>
         ))}
       </div>
+
+      {/* Edit Modal */}
+      {editing && (
+        <div className="fixed inset-0 z-[60] bg-foreground/80 flex items-center justify-center p-4" onClick={() => setEditing(null)}>
+          <div className="bg-background rounded-lg p-6 w-full max-w-md relative" onClick={(e) => e.stopPropagation()}>
+            <button className="absolute top-3 right-3 text-muted-foreground hover:text-foreground" onClick={() => setEditing(null)}>
+              <X size={20} />
+            </button>
+            <h3 className="font-display text-lg text-primary mb-4">Editar Presente</h3>
+            <form onSubmit={handleUpdate} className="space-y-3">
+              <input name="name" defaultValue={editing.name} placeholder="Nome" required className="w-full px-3 py-2 border border-input rounded-md text-sm" />
+              <input name="price" type="number" step="0.01" defaultValue={editing.price} placeholder="Preço" required className="w-full px-3 py-2 border border-input rounded-md text-sm" />
+              <label className="flex items-center gap-1.5 px-3 py-2 border border-input rounded-md text-sm cursor-pointer hover:border-primary/40 truncate">
+                <ImagePlus size={16} className="shrink-0" />
+                <span className="truncate">{editFileName || "Trocar imagem (opcional)"}</span>
+                <input name="image" type="file" accept="image/*" className="hidden" onChange={(e) => setEditFileName(e.target.files?.[0]?.name || "")} />
+              </label>
+              <button className="w-full px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm">Salvar</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
