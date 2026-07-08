@@ -70,5 +70,17 @@
     "name": "Nintendo Switch 2",
     "price": 4000,
     "image": "/uploads/1776049756394-Screenshot from 2026-04-13 00-08-42.png"
+  },
+  {
+    "id": 16,
+    "name": "Kit tênis de mesa",
+    "price": 420,
+    "image": "/uploads/1783474126396-images.jpeg"
+  },
+  {
+    "id": 17,
+    "name": "Ingressos para o Beto Carrero World ",
+    "price": 538,
+    "image": "/uploads/1783474314823-images.jpeg"
   }
 ]

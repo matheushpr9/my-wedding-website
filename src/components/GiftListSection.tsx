@@ -34,6 +34,11 @@ const GiftListSection = () => {
     }
   };
 
+  const sortedGifts = useMemo(
+    () => [...gifts].sort((a, b) => a.price - b.price),
+    [gifts]
+  );
+
   const selectedGifts = gifts.filter((g) => selected.includes(g.id));
   const total = selectedGifts.reduce((sum, g) => sum + g.price, 0);
 
@@ -82,7 +87,7 @@ const GiftListSection = () => {
           {/* Left column - Gift list with scroll */}
           <div className="lg:w-3/5 h-[500px] overflow-y-auto pr-2 custom-scrollbar">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {gifts.map((gift) => {
+              {sortedGifts.map((gift) => {
                 const isSelected = selected.includes(gift.id);
                 return (
                   <button
